@@ -5,8 +5,12 @@ document.getElementById('inputfile')
       
     var fr=new FileReader();
     fr.onload=function() {
-        document.getElementById('output')
-                .textContent = getReport(fr.result);
+        let output = document.getElementById('output');
+        output.style.backgroundColor = 'red';
+        output.textContent = 'Ошибка выполнения программы';
+        output.style.opacity = 60;
+        output.textContent = getReport(fr.result);
+        output.style.backgroundColor = 'inherit';
     };
       
     fr.readAsText(this.files[0], 'WINDOWS-1251');
@@ -197,7 +201,7 @@ function getReport(dataFile) {
 function findCounterBySerialNumber(serial) {
     const counter = counterArr.filter(counter => counter.serialNumber == serial);
     return counter.length === 1 ? counter[0] : 
-    new Counter('Счётчик не найден в базе данных или есть дубликат', serial +' - ошибка БД', -1);
+    new Counter('Счётчик не найден в базе данных или найдено более одного счётчика с таким номером', serial +' - ошибка БД', -1);
 }
 
 
