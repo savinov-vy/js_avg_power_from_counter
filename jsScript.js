@@ -6,7 +6,7 @@ document.getElementById('inputfile')
     var fr=new FileReader();
     fr.onload=function() {
         document.getElementById('output')
-                .textContent =  getReport(fr.result);
+                .textContent = getReport(fr.result);
     };
       
     fr.readAsText(this.files[0], 'WINDOWS-1251');
@@ -224,15 +224,16 @@ function getAvgPower(dataFileStr, coefficienTtTn) {
 
 function getThreeProfilMeasurement(dataFileStr) {
     let threeProfile = dataFileStr.substring(dataFileStr.lastIndexOf('Профиль №3'));
-    let measurementRegex = /((\t+|\s+)\d\d\d.\d\d\d\d){4}/g;
+    let measurementRegex = /((\t+|\s+)\d?\d?\d\d\d.\d\d\d\d){4}/g;
     let fixNumbersString = threeProfile.replace(/,/g,".");
 
     return fixNumbersString.match(measurementRegex);
 }
 
 function getAverageActivePower(threeProfileMeasurement) {
-    let measurementActPositivePowRegex = /(\d\d\d.\d\d\d\d)\t\d\d\d.\d\d\d\d\t\d\d\d.\d\d\d\d\t\d\d\d.\d\d\d\d/;
-    let measurementActNegativePowRegex = /\d\d\d.\d\d\d\d\t(\d\d\d.\d\d\d\d)\t\d\d\d.\d\d\d\d\t\d\d\d.\d\d\d\d/;
+    console.log('threeProfileMeasurement: ' +threeProfileMeasurement);
+    let measurementActPositivePowRegex = /(\d?\d?\d\d\d.\d\d\d\d)\t\d?\d?\d\d\d.\d\d\d\d\t\d?\d?\d\d\d.\d\d\d\d\t\d?\d?\d\d\d.\d\d\d\d/;
+    let measurementActNegativePowRegex = /\d?\d?\d\d\d.\d\d\d\d\t(\d?\d?\d\d\d.\d\d\d\d)\t\d?\d?\d\d\d.\d\d\d\d\t\d?\d?\d\d\d.\d\d\d\d/;
 
     let sumActivePow = threeProfileMeasurement.map(period => {
         let actPositivePowAsArr = period.match(measurementActPositivePowRegex);
@@ -247,8 +248,8 @@ function getAverageActivePower(threeProfileMeasurement) {
 }
 
 function getAverageReactivePower(threeProfileMeasurement){
-    let measurementReactPositivePowRegex = /\d\d\d.\d\d\d\d\t\d\d\d.\d\d\d\d\t(\d\d\d.\d\d\d\d)\t\d\d\d.\d\d\d\d/;
-    let measurementReactNegativePowRegex = /\d\d\d.\d\d\d\d\t\d\d\d.\d\d\d\d\t\d\d\d.\d\d\d\d\t(\d\d\d.\d\d\d\d)/;
+    let measurementReactPositivePowRegex = /\d?\d?\d\d\d.\d\d\d\d\t\d?\d?\d\d\d.\d\d\d\d\t(\d?\d?\d\d\d.\d\d\d\d)\t\d?\d?\d\d\d.\d\d\d\d/;
+    let measurementReactNegativePowRegex = /\d?\d?\d\d\d.\d\d\d\d\t\d?\d?\d\d\d.\d\d\d\d\t\d?\d?\d\d\d.\d\d\d\d\t(\d?\d?\d\d\d.\d\d\d\d)/;
 
     let sumReactivePow = threeProfileMeasurement.map(period => {
         let reactPositivePowAsArr = period.match(measurementReactPositivePowRegex);
